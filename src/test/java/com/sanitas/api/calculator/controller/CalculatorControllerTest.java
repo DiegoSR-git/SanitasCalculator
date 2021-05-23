@@ -1,12 +1,11 @@
 package com.sanitas.api.calculator.controller;
 
-
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.sanitas.api.calculator.Application;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ class CalculatorControllerTest {
   @LocalServerPort
   int randomLocalServerPort;
 
-  private ResponseEntity<Double> calculate(String firstNumber, String secondNumber, String operation) throws URISyntaxException {
+  private ResponseEntity<BigDecimal> calculate(String firstNumber, String secondNumber, String operation) throws URISyntaxException {
     RestTemplate restTemplate = new RestTemplate();
 
     final String baseUrl = "http://localhost:" + randomLocalServerPort +
@@ -31,12 +30,44 @@ class CalculatorControllerTest {
         "&secondNumber=" + secondNumber + "&operation=" + operation;
     URI uri = new URI(baseUrl);
 
-    return restTemplate.getForEntity(uri, Double.class);
+    return restTemplate.getForEntity(uri, BigDecimal.class);
   }
 
   @Test
   void calculateAdditionWithAllParameters_shoulReturnOkStatusCode() throws URISyntaxException {
-    ResponseEntity<Double> result = calculate("5", "4", "add");
+    ResponseEntity<BigDecimal> result = calculate("5", "4", "add");
+
+    assertNotNull(result);
+    assertEquals(HttpStatus.OK, result.getStatusCode());
+  }
+
+  @Test
+  void calculateAdditionWithAllParametersWithDecimals_shoulReturnOkStatusCode() throws URISyntaxException {
+    ResponseEntity<BigDecimal> result = calculate("5.3", "4.7012", "add");
+
+    assertNotNull(result);
+    assertEquals(HttpStatus.OK, result.getStatusCode());
+  }
+
+  @Test
+  void calculateSubtractionWithAllParametersAndOneWithDecimals_shoulReturnOkStatusCode() throws URISyntaxException {
+    ResponseEntity<BigDecimal> result = calculate("5", "4.70", "sub");
+
+    assertNotNull(result);
+    assertEquals(HttpStatus.OK, result.getStatusCode());
+  }
+
+  @Test
+  void calculateSubtractionWithAllParametersWithDecimals_shoulReturnOkStatusCode() throws URISyntaxException {
+    ResponseEntity<BigDecimal> result = calculate("5.3", "4.70", "sub");
+
+    assertNotNull(result);
+    assertEquals(HttpStatus.OK, result.getStatusCode());
+  }
+
+  @Test
+  void calculateAdditionWithAllParametersAndOneWithDecimals_shoulReturnOkStatusCode() throws URISyntaxException {
+    ResponseEntity<BigDecimal> result = calculate("5", "4.7012", "add");
 
     assertNotNull(result);
     assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -49,7 +80,7 @@ class CalculatorControllerTest {
 
   @Test
   void calculateSubtractionWithAllParameters_shoulReturnOkStatusCode() throws URISyntaxException {
-    ResponseEntity<Double> result = calculate("5", "4", "sub");
+    ResponseEntity<BigDecimal> result = calculate("5", "4", "sub");
 
     assertNotNull(result);
     assertEquals(HttpStatus.OK, result.getStatusCode());

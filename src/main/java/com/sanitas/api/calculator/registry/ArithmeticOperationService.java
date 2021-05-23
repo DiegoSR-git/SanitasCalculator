@@ -1,6 +1,9 @@
 package com.sanitas.api.calculator.registry;
 
+import java.math.BigDecimal;
+
 @FunctionalInterface
 public interface ArithmeticOperationService {
-  double calculate(Long firstNumber, Long secondNumber);
+
+  BigDecimal calculate(BigDecimal firstNumber, BigDecimal secondNumber);
 }
