@@ -2,6 +2,7 @@ package com.sanitas.api.calculator.controller;
 
 import com.sanitas.api.calculator.registry.ServiceRegistry;
 import io.corp.calculator.TracerImpl;
+import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,11 @@ public class CalculatorController {
   private TracerImpl tracer = new TracerImpl();
 
   @GetMapping
-  public ResponseEntity<Double> calulate(@RequestParam(name = "firstNumber") Long firstNumber,
-      @RequestParam(name = "secondNumber") Long secondNumber,
+  public ResponseEntity<BigDecimal> calulate(@RequestParam(name = "firstNumber") BigDecimal firstNumber,
+      @RequestParam(name = "secondNumber") BigDecimal secondNumber,
       @RequestParam(name = "operation") String operation) {
 
-    double calculateResult  = serviceRegistry.getService(operation).calculate(firstNumber,secondNumber);
+    BigDecimal calculateResult = serviceRegistry.getService(operation).calculate(firstNumber, secondNumber);
     tracer.trace("The result of the operation is: " + calculateResult);
     return new ResponseEntity<>(calculateResult, HttpStatus.OK);
   }

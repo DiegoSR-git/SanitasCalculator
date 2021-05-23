@@ -53,7 +53,7 @@ Esto nos levantará la aplicación en el puerto 8080 y podemos lanzar las siguie
 http://localhost:8080/calculator?firstNumber=(firstNumber)&secondNumber=(secondNumber)&operation=(operation)
 
 
-firstNumber y secondNumber pueden ser cualquier valor númerico
+firstNumber y secondNumber pueden ser cualquier valor númerico con decimales. El resultado será un numero con dos decimales.
 operation: (add o sub)
 
 
